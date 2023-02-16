@@ -1,23 +1,40 @@
 import { gql } from "@apollo/client";
 
+// get projects fot
 export const GET_PROJECTS = gql`
-  {
-    projects {
+  query Query($owner: ID!) {
+    projects(owner: $owner) {
       _id
       name
       description
+      owner
       createdAt
       updatedAt
+      tasks {
+        name
+      }
     }
   }
 `;
 
 export const CREATE_PROJECT = gql`
-  mutation ($name: String!, $description: String) {
-    createProject(name: $name, description: $description) {
+  mutation (
+    $name: String!
+    $description: String
+    $owner: ID!
+    $categoryId: ID
+  ) {
+    createProject(
+      name: $name
+      description: $description
+      owner: $owner
+      categoryId: $categoryId
+    ) {
       _id
       name
+      owner
       description
+      categoryId
       createdAt
       updatedAt
     }

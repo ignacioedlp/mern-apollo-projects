@@ -1,19 +1,27 @@
 import Project from "../models/Project.js";
 import Task from "../models/Task.js";
+import User from "../models/User.js";
+import Category from "../models/Category.js";
 
 export const resolvers = {
   Query: {
     hello: () => "Hello world!",
-    projects: async () => await Project.find(),
+    // projects resolver recibe un owner y retorna todos los proyectos que tengan ese owner
+    projects: async (_, { owner }) => await Project.find({ owner: owner }),
     project: async (_, { _id }) => Project.findById(_id),
     tasks: async () => await Task.find(),
     task: async (_, { _id }) => Task.findById(_id),
+    users: async () => await User.find(),
+    user: async (_, { _id }) => User.findById(_id),
+    categories: async (_, { owner }) => await Category.find({ owner: owner }),
   },
   Mutation: {
-    createProject: async (_, { name, description }) => {
+    createProject: async (_, { name, description, owner, categoryId }) => {
       const project = new Project({
         name,
         description,
+        owner,
+        categoryId,
       });
       await project.save();
       return project;
@@ -37,7 +45,7 @@ export const resolvers = {
       return projectUpdated;
     },
 
-    createTask: async (_, { name, description, projectId }) => {
+    createTask: async (_, { name, description, projectId, categoryId }) => {
       const projectFound = await Project.findById(projectId);
       if (!projectFound) throw new Error("Project not found");
 
@@ -45,6 +53,7 @@ export const resolvers = {
         name,
         description,
         projectId,
+        categoryId,
       });
       await task.save();
       return task;
@@ -63,11 +72,22 @@ export const resolvers = {
       if (!taskUpdated) throw new Error("Task not found");
       return taskUpdated;
     },
+    createCategory: async (_, { name, color, owner }) => {
+      const category = new Category({
+        name,
+        color,
+        owner,
+      });
+      await category.save();
+      return category;
+    },
   },
   Project: {
     tasks: async (parent) => await Task.find({ projectId: parent._id }),
+    category: async (parent) => await Category.findById(parent.categoryId),
   },
   Task: {
     project: async (parent) => await Project.findById(parent.projectId),
+    category: async (parent) => await Category.findById(parent.categoryId),
   },
 };

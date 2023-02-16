@@ -1,23 +1,18 @@
 import mongoose from "mongoose";
 
-const ProjectSchema = new mongoose.Schema(
+const CategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
     },
-    description: {
+    color: {
       type: String,
       required: false,
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
-    },
-    category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
     },
   },
   {
@@ -25,4 +20,4 @@ const ProjectSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Project", ProjectSchema);
+export default mongoose.model("Category", CategorySchema);
