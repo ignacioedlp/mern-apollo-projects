@@ -5,12 +5,10 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "node server/index.js"
+    "dev": "node index.js",
+    "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ignacioedlp/mern-apollo-projects.git"
-  },
+  "repository": "git+https://github.com/ignacioedlp/mern-apollo-projects.git",
   "keywords": [],
   "author": "",
   "license": "ISC",
