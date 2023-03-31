@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
 import { DELETE_PROJECT, GET_PROJECTS } from "../graphql/projects";
+import { AiOutlineEye } from "react-icons/ai";
+import { BsFillTrash3Fill } from "react-icons/bs";
 
 export function ProjectCard({ project, user }) {
   const navigate = useNavigate();
@@ -18,37 +20,58 @@ export function ProjectCard({ project, user }) {
     ],
   });
 
+  const rows = {
+    boxSizing: "border-box",
+    flexShrink: 0,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "20px 20px 20px 20px",
+    boxShadow: "0.35857857518725544px 0.3984206390969505px 1.3936523876613545px -0.75px rgba(0, 0, 0, 0.15), 1.0861546942765228px 1.2068385491961364px 4.221451552864179px -1.5px rgba(0, 0, 0, 0.14397), 2.8711276392016316px 3.1901418213351462px 11.158931867483412px -2.25px rgba(0, 0, 0, 0.13405), 9px 10px 34.979422522391644px -3px rgba(0, 0, 0, 0.1)",
+    overflow: "visible",
+    position: "relative",
+    alignContent: "center",
+    flexWrap: "nowrap",
+    gap: 0,
+    borderRadius: 17,
+  }
+
   return (
-    <>
-      {/*<!-- Component: User profile card --> */}
-      <div className="overflow-hidden rounded bg-white text-center text-slate-500 shadow-md shadow-slate-200">
-        <div className="p-6">
-          <header className="mb-4">
-            <h3 className="text-xl font-medium text-slate-700">
-              {project.name}
-            </h3>
-            <p className=" text-slate-400">{project.description}</p>
-          </header>
-        </div>
-        {/*  <!-- Action base sized with lead icon buttons  --> */}
-        <div className="flex justify-end gap-2 p-6 pt-0">
-          <button
-            className="inline-flex h-10 flex-1 items-center justify-center gap-2 justify-self-center whitespace-nowrap rounded bg-primary px-5 text-sm font-medium tracking-wide text-emerald-500 transition duration-300 hover:bg-emerald-100 hover:text-emerald-600 focus:bg-primary-200 focus:text-primary-700  focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-100 disabled:text-emerald-400 disabled:shadow-none text-white"
-            onClick={() => {
-              deleteProject({ variables: { id: project._id } });
-            }}
-          >
-            <span className="order-2">Delete project</span>
-          </button>
-          <button
-            className="inline-flex h-10 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded bg-secondary px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-emerald-600 focus:bg-emerald-700 focus-visible:outline-none disabled:cursor-not-allowed disabled:border-emerald-300 disabled:bg-emerald-300 disabled:shadow-none"
-            onClick={() => navigate(`/projects/${project._id}`)}
-          >
-            <span className="order-2">Go to details</span>
-          </button>
+
+    <div style={rows} className="w-full md:w-[330px] h-[310px]">
+      <div className="flex  w-full p-[13px] justify-between items-center">
+        <img src="/public/logo.png" alt="ProjectX" className="w-11 h-11 rounded-full" />
+        <div>
+          <div style={{ backgroundColor: project?.category?.color || '#333333' }} className="text-black text-sm flex justify-center rounded-3xl px-2 py-2 font-semibold">
+            {project.category?.name == null ? 'No category' : project.category.name}
+          </div>
         </div>
       </div>
-      {/*<!-- End User profile card --> */}
-    </>
+      <div className="px-[10px] h-36 w-full flex flex-col gap-4">
+        <h3 className="text-[22px] font-bold text-black">
+          {project.name}
+        </h3>
+        <p className="text-[14px] font-semibold text-[#8C8C8C]">{project.description}</p>
+      </div>
+      <div className="flex gap-2 py-6  justify-around  w-full">
+        <button
+          className="text-[#DE38A6] text-sm flex justify-center items-center gap-2 rounded-3xl px-2 py-2 border-2 border-[#DE38A6]"
+          onClick={() => {
+            deleteProject({ variables: { id: project._id } });
+          }}
+        >
+          <BsFillTrash3Fill className="h-5 w-5" />
+          <span className="order-2">Delete</span>
+        </button>
+        <button
+          className="text-white text-sm flex justify-center items-center gap-2 rounded-3xl px-2 py-2 bg-[#DE38A6]"
+          onClick={() => navigate(`/projects/${project._id}`)}
+        >
+          <AiOutlineEye className="h-5 w-5" />
+          <span className="order-2">View project</span>
+        </button>
+      </div>
+    </div>
   );
 }

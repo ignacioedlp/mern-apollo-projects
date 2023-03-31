@@ -16,6 +16,7 @@ export const resolvers = {
     categories: async (_, { owner }) => await Category.find({ owner: owner }),
   },
   Mutation: {
+    // Project resolvers
     createProject: async (_, { name, description, owner, categoryId }) => {
       const project = new Project({
         name,
@@ -26,7 +27,6 @@ export const resolvers = {
       await project.save();
       return project;
     },
-
     deleteProject: async (_, { _id }) => {
       const projectDeleted = Project.findByIdAndDelete(_id);
       if (!projectDeleted) throw new Error("Project not found");
@@ -36,7 +36,6 @@ export const resolvers = {
 
       return projectDeleted;
     },
-
     updateProject: async (_, args) => {
       const projectUpdated = await Project.findByIdAndUpdate(args._id, args, {
         new: true,
@@ -44,8 +43,8 @@ export const resolvers = {
       if (!projectUpdated) throw new Error("Project not found");
       return projectUpdated;
     },
-
-    createTask: async (_, { name, description, projectId, categoryId }) => {
+    // Task resolvers
+    createTask: async (_, { name, description, projectId, categoryId, state }) => {
       const projectFound = await Project.findById(projectId);
       if (!projectFound) throw new Error("Project not found");
 
@@ -54,17 +53,16 @@ export const resolvers = {
         description,
         projectId,
         categoryId,
+        state
       });
       await task.save();
       return task;
     },
-
     deleteTask: async (_, { _id }) => {
       const taskDeleted = await Task.findByIdAndDelete(_id);
       if (!taskDeleted) throw new Error("Task not found");
       return taskDeleted;
     },
-
     updateTask: async (_, args) => {
       const taskUpdated = await Task.findByIdAndUpdate(args._id, args, {
         new: true,
@@ -72,6 +70,7 @@ export const resolvers = {
       if (!taskUpdated) throw new Error("Task not found");
       return taskUpdated;
     },
+    // Category resolvers
     createCategory: async (_, { name, color, owner }) => {
       const category = new Category({
         name,
@@ -79,6 +78,18 @@ export const resolvers = {
         owner,
       });
       await category.save();
+      return category;
+    },
+    deleteCategory: async (_, { _id }) => {
+      const categoryDeleted = await Category.findByIdAndDelete(_id);
+      if (!categoryDeleted) throw new Error("Category not found");
+      return categoryDeleted;
+    },
+    updateCategory: async (_, args) => {
+      const category = await Category.findByIdAndUpdate(args._id, args, {
+        new: true,
+      });
+      if (!category) throw new Error("Category not found");
       return category;
     },
   },

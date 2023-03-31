@@ -22,7 +22,8 @@ export const typeDefs = gql`
       name: String!
       description: String
       projectId: ID!
-      categoryId: ID!
+      categoryId: ID
+      state: String
     ): Task
     deleteProject(_id: ID!): Project
     updateProject(
@@ -37,8 +38,12 @@ export const typeDefs = gql`
       name: String!
       description: String
       categoryId: ID
+      projectId: ID!
+      state: String!
     ): Task
     createCategory(name: String!, color: String, owner: ID!): Category
+    deleteCategory(_id: ID!): Category
+    updateCategory(_id: ID!, name: String!, color: String): Category
   }
 
   type Project {
@@ -63,6 +68,7 @@ export const typeDefs = gql`
     project: Project
     categoryId: ID
     category: Category
+    state: String
   }
 
   type User {

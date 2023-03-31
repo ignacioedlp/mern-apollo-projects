@@ -12,3 +12,25 @@ export const GET_CATEGORIES = gql`
     }
   }
 `;
+
+// Create a new category
+export const CREATE_CATEGORY = gql`
+  mutation ($name: String!, $color: String, $owner: ID!) {
+    createCategory(name: $name, color: $color, owner: $owner) {
+      _id
+      name
+      color
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const DELETE_CATEGORY = gql`
+  mutation ($id: ID!) {
+    deleteCategory(_id: $id) {
+      _id
+      name
+    }
+  }
+`;

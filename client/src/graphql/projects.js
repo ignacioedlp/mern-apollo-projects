@@ -10,6 +10,10 @@ export const GET_PROJECTS = gql`
       owner
       createdAt
       updatedAt
+      category {
+        name
+        color
+      }
       tasks {
         name
       }
@@ -54,6 +58,8 @@ export const GET_PROJECT = gql`
         name
         description
         projectId
+        state
+        createdAt
       }
     }
   }
@@ -70,3 +76,5 @@ export const DELETE_PROJECT = gql`
     }
   }
 `;
+
+

@@ -23,3 +23,12 @@ export const DELETE_TASK = gql`
     }
   }
 `;
+
+export const UPDATE_TASK = gql`
+  mutation ($id: ID!, $state: String!, $name: String!, $projectId: ID!) {
+    updateTask(_id: $id, state: $state, name: $name, projectId: $projectId) {
+      name
+      state
+    }
+  }
+`;

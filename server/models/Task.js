@@ -10,9 +10,18 @@ const TaskSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    state: {
+      type: String,
+      required: false,
+      default: "todo",
+    },
     projectId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Project",
+    },
+    categoryId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
     },
   },
   { timestamps: true }

@@ -8,9 +8,11 @@ import Login from "./pages/Login";
 import useAuth, { AuthProvider } from "./hooks/userAuth.jsx";
 import SignUp from "./pages/SignUp";
 import Profile from "./pages/Profile";
+import Home from "./pages/Home";
+
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: `${import.meta.env.VITE_URI_GRAPH}/graphql`,
   cache: new InMemoryCache(),
 });
 
@@ -30,7 +32,7 @@ function App() {
       <BrowserRouter>
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<div>Home page</div>} />
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route
