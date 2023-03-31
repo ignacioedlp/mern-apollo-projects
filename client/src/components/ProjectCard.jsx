@@ -41,7 +41,7 @@ export function ProjectCard({ project, user }) {
 
     <div style={rows} className="w-full md:w-[330px] h-[310px]">
       <div className="flex  w-full p-[13px] justify-between items-center">
-        <img src="/public/logo.png" alt="ProjectX" className="w-11 h-11 rounded-full" />
+        <img src="/logo.png" alt="ProjectX" className="w-11 h-11 rounded-full" />
         <div>
           <div style={{ backgroundColor: project?.category?.color || '#333333' }} className="text-black text-sm flex justify-center rounded-3xl px-2 py-2 font-semibold">
             {project.category?.name == null ? 'No category' : project.category.name}

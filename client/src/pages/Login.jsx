@@ -52,7 +52,7 @@ function Login() {
           <div className="hidden lg:relative lg:block lg:p-12">
             <a className="block text-white" href="/">
               <span className="sr-only">Home</span>
-              <img src="/public/logo.png" alt="logo" className="h-12" />
+              <img src="/logo.png" alt="logo" className="h-12" />
             </a>
 
             <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
@@ -76,7 +76,7 @@ function Login() {
                 href="/"
               >
                 <span className="sr-only">Home</span>
-                <img src="/public/logo.png" alt="logo" className="h-10" />
+                <img src="/logo.png" alt="logo" className="h-10" />
               </a>
 
               <h1
