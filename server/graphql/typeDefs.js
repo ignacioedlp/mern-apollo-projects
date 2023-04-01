@@ -29,7 +29,7 @@ export const typeDefs = gql`
     updateProject(
       _id: ID!
       name: String!
-      description: String
+      description: String!
       categoryId: ID
     ): Project
     deleteTask(_id: ID!): Task

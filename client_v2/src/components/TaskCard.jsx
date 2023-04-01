@@ -5,7 +5,7 @@ import { GET_PROJECT } from "../graphql/projects.js";
 import { BsFillTrash3Fill, BsFlagFill } from "react-icons/bs";
 import moment from 'moment';
 
-function TaskCard({ task, startDrag }) {
+function TaskCard({ task, startDrag, handleUpdate }) {
   const [deleteTask] = useMutation(DELETE_TASK, {
     refetchQueries: [
       {
@@ -25,6 +25,7 @@ function TaskCard({ task, startDrag }) {
       style={rows}
       className="bg-white rounded-lg"
       draggable
+      onClick={(e) => handleUpdate(e, task)}
       onDragStart={(e) => {
         startDrag(e, task);
       }}>

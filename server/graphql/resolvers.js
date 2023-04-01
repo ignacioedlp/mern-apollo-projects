@@ -37,6 +37,7 @@ export const resolvers = {
       return projectDeleted;
     },
     updateProject: async (_, args) => {
+      console.log("Update project");
       const projectUpdated = await Project.findByIdAndUpdate(args._id, args, {
         new: true,
       });

@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 import { useMutation } from "@apollo/client";
 import { DELETE_PROJECT, GET_PROJECTS } from "../graphql/projects";
 import { AiOutlineEye } from "react-icons/ai";
-import { BsFillTrash3Fill } from "react-icons/bs";
+import { BsFillTrash3Fill, BsFillPencilFill } from "react-icons/bs";
 import Link from "next/link";
 import Image from "next/image";
 
 
-export function ProjectCard({ project, user }) {
+export function ProjectCard({ project, user, handleEditProject }) {
   const router = useRouter();
 
   const [deleteProject] = useMutation(DELETE_PROJECT, {
@@ -44,9 +44,9 @@ export function ProjectCard({ project, user }) {
 
     <div style={rows} className="w-full md:w-[330px] h-[310px]">
       <div className="flex  w-full p-[13px] justify-between items-center">
-        <Image src="/logo.png" alt="ProjectX" className="w-11 h-11 rounded-full" width={44} height={44} />
+        <Image src="/logo.png" alt="ProjectX" className="rounded-full w-11 h-11" width={44} height={44} />
         <div>
-          <div style={{ backgroundColor: project?.category?.color || '#333333' }} className="text-black text-sm flex justify-center rounded-3xl px-2 py-2 font-semibold">
+          <div style={{ backgroundColor: project?.category?.color || '#333333' }} className="flex justify-center px-2 py-2 text-sm font-semibold text-black rounded-3xl">
             {project.category?.name == null ? 'No category' : project.category.name}
           </div>
         </div>
@@ -57,20 +57,29 @@ export function ProjectCard({ project, user }) {
         </h3>
         <p className="text-[14px] font-semibold text-[#8C8C8C]">{project.description}</p>
       </div>
-      <div className="flex gap-2 py-6  justify-around  w-full">
-        <button
-          className="text-[#DE38A6] text-sm flex justify-center items-center gap-2 rounded-3xl px-2 py-2 border-2 border-[#DE38A6]"
-          onClick={() => {
-            deleteProject({ variables: { id: project._id } });
-          }}
-        >
-          <BsFillTrash3Fill className="h-5 w-5" />
-          <span className="order-2">Delete</span>
-        </button>
+      <div className="flex justify-around w-full gap-2 py-6">
+        <div className="flex gap-3">
+          <button
+            className="text-[#DE38A6] text-sm flex justify-center items-center gap-2 rounded-3xl px-2 py-2 border-2 border-[#DE38A6]"
+            onClick={() => {
+              deleteProject({ variables: { id: project._id } });
+            }}
+          >
+            <BsFillTrash3Fill className="w-5 h-5" />
+          </button>
+          <button
+            className="text-[#DE38A6] text-sm flex justify-center items-center gap-2 rounded-3xl px-2 py-2 border-2 border-[#DE38A6]"
+            onClick={(e) => {
+              handleEditProject(e, project);
+            }}
+          >
+            <BsFillPencilFill className="w-5 h-5" />
+          </button>
+        </div>
         <div
           className="text-white text-sm flex justify-center items-center gap-2 rounded-3xl px-2 py-2 bg-[#DE38A6]"
         >
-          <AiOutlineEye className="h-5 w-5" />
+          <AiOutlineEye className="w-5 h-5" />
           <Link href="/project/[id].jsx" as={`/project/${project._id}`}>
             <p>View project</p>
           </Link>
