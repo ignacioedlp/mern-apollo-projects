@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
+import LoadingModal from "../components/LoadingModal.jsx"
 
 function SignUp() {
   const [user, setUser] = useState({
@@ -9,6 +10,7 @@ function SignUp() {
     password: "",
     name: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -21,6 +23,7 @@ function SignUp() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const response = await fetch(`${process.env.URI_GRAPH}/user/signup`, {
       method: "POST",
       headers: {
@@ -35,8 +38,10 @@ function SignUp() {
 
     if (response.ok) {
       router.push("/login");
+      setLoading(false);
     } else {
       console.log("error");
+      setLoading(false);
     }
   };
 
@@ -44,12 +49,12 @@ function SignUp() {
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <section
-          className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6"
+          className="relative flex items-end h-32 bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6"
         >
           <Image
             alt="Night"
             src="https://images.unsplash.com/photo-1557754897-ca12c5049d83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
-            className="absolute inset-0 h-full w-full object-cover opacity-80"
+            className="absolute inset-0 object-cover w-full h-full opacity-80"
             layout="fill"
 
           />
@@ -75,9 +80,9 @@ function SignUp() {
           className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:py-12 lg:px-16 xl:col-span-6"
         >
           <div className="max-w-xl lg:max-w-3xl">
-            <div className="relative -mt-16 block lg:hidden">
+            <div className="relative block -mt-16 lg:hidden">
               <Link
-                className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white text-blue-600 sm:h-20 sm:w-20"
+                className="inline-flex items-center justify-center w-16 h-16 text-blue-600 bg-white rounded-full sm:h-20 sm:w-20"
                 href={"/"}
               >
                 <span className="sr-only">Home</span>
@@ -256,6 +261,7 @@ function SignUp() {
           </div >
         </main >
       </div >
+      {loading && <LoadingModal />}
     </section >
   );
 }
