@@ -13,8 +13,12 @@ function Profile() {
 
 
   function decodeUser(token) {
-    const decoded = jwtDecode(token);
-    return decoded.id;
+    let decoded;
+    if (token) {
+      decoded = jwtDecode(token);
+      return decoded.id;
+    }
+    return decoded
   }
 
   const { loading, error, data } = useQuery(GET_CATEGORIES, {
