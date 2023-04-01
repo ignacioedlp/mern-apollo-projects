@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import useAuth from "../hooks/userAuth.jsx";
+import jwtDecode from "jwt-decode";
+import Link from "next/link";
+import Image from "next/image";
 
 function Login() {
   const [user, setUser] = useState({
@@ -18,7 +21,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${import.meta.env.VITE_URI_GRAPH}/user/login`, {
+    const response = await fetch(`${process.env.URI_GRAPH}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,17 +46,18 @@ function Login() {
         <section
           className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6"
         >
-          <img
+          <Image
             alt="Night"
             src="https://images.unsplash.com/photo-1557754897-ca12c5049d83?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
             className="absolute inset-0 h-full w-full object-cover opacity-80"
+            layout="fill"
           />
 
           <div className="hidden lg:relative lg:block lg:p-12">
-            <a className="block text-white" href="/">
+            <Link className="block text-white" href="/">
               <span className="sr-only">Home</span>
-              <img src="/logo.png" alt="logo" className="h-12" />
-            </a>
+              <Image src="/logo.png" alt="logo" className="h-12" width={48} height={48} />
+            </Link>
 
             <h2 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
               Welcome to ProjectX !
@@ -71,13 +75,13 @@ function Login() {
         >
           <div className="max-w-xl lg:max-w-3xl">
             <div className="relative -mt-16 block lg:hidden">
-              <a
+              <Link
                 className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-white text-blue-600 sm:h-20 sm:w-20"
                 href="/"
               >
                 <span className="sr-only">Home</span>
-                <img src="/logo.png" alt="logo" className="h-10" />
-              </a>
+                <Image src="/logo.png" alt="logo" className="h-10" width={40} height={40} />
+              </Link>
 
               <h1
                 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl"
@@ -107,9 +111,9 @@ function Login() {
                         stroke="currentColor"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
                         />
                       </svg>
@@ -141,9 +145,9 @@ function Login() {
                         stroke="currentColor"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4"
                         />
                       </svg>
@@ -172,13 +176,12 @@ function Login() {
                 <div className="text-center">
                   <p className="text-base text-gray-600">
                     Don’t have an account?{" "}
-                    <a
-                      href="/signup"
-                      title=""
+                    <Link
+                      href="/sign_up"
                       className="font-medium text-[#DE38A6] transition-all duration-200 hover:text-[#d8289e] hover:underline"
                     >
                       Create a free account
-                    </a>
+                    </Link>
                   </p>
                 </div>
               </div>

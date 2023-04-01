@@ -1,0 +1,32 @@
+{
+  "name": "client_v2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.7.11",
+    "dotenv": "^16.0.3",
+    "eslint": "8.37.0",
+    "eslint-config-next": "13.2.4",
+    "graphql": "^16.6.0",
+    "jose": "^4.13.1",
+    "jsonwebtoken": "^9.0.0",
+    "jwt-decode": "^3.1.2",
+    "moment": "^2.29.4",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-color": "^2.19.3",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.8.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.1"
+  }
+}
