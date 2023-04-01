@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { GET_PROJECT } from "../graphql/projects";
-import { CREATE_TASK } from "../graphql/tasks";
+import { UPDATE_TASK } from "../graphql/tasks";
 
-export function TaskForm({ projectId, showModalHandle }) {
-  const [task, setTask] = useState({
-    name: "",
-    description: "",
+export function TaskFormUpdate({ projectId, showModalHandle, task }) {
+  const [taskForm, setTaskForm] = useState({
+    id: task._id,
+    name: task.name,
+    description: task.description,
     projectId: projectId,
+    state: task.state
   });
 
-  const [createTask, { loading }] = useMutation(CREATE_TASK, {
+  const [updateTask] = useMutation(UPDATE_TASK, {
     refetchQueries: [
       {
         query: GET_PROJECT,
-        variables: { id: projectId },
+        variables: { projectId },
       },
       "GetProject",
     ],
@@ -23,12 +25,12 @@ export function TaskForm({ projectId, showModalHandle }) {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setTask({ ...task, [name]: value });
+    setTaskForm({ ...taskForm, [name]: value });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateTask({ variables: { ...task } })
+    updateTask({ variables: { ...taskForm } });
     showModalHandle(false);
   };
 
@@ -40,7 +42,7 @@ export function TaskForm({ projectId, showModalHandle }) {
       {/*  <!-- Body--> */}
       <div className="p-6 bg-white">
         <header className="mb-4 text-center">
-          <h3 className="text-xl font-medium text-slate-700">Add task</h3>
+          <h3 className="text-xl font-medium text-slate-700">Update task</h3>
         </header>
         <div className="flex flex-col space-y-8">
           {/*      <!-- Input field --> */}
@@ -49,7 +51,7 @@ export function TaskForm({ projectId, showModalHandle }) {
               id="id-b03"
               type="name"
               name="name"
-              value={task.name}
+              value={taskForm.name}
               onChange={handleChange}
               placeholder="Task name"
               className="peer relative h-10 w-full rounded border border-slate-200 px-4 text-sm text-slate-500 placeholder-transparent outline-none transition-all autofill:bg-white invalid:border-pink-500 invalid:text-pink-500 focus:border-[#d9259d] focus:outline-none invalid:focus:border-pink-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
@@ -70,7 +72,7 @@ export function TaskForm({ projectId, showModalHandle }) {
               id="id-b13"
               type="description"
               name="description"
-              value={task.description}
+              value={taskForm.description}
               onChange={handleChange}
               placeholder="Project description"
               className="peer relative h-10 w-full rounded border border-slate-200 px-4 pr-12 text-sm text-slate-500 placeholder-transparent outline-none transition-all autofill:bg-white invalid:border-pink-500 invalid:text-pink-500 focus:border-[#d9259d] focus:outline-none invalid:focus:border-pink-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
@@ -86,6 +88,22 @@ export function TaskForm({ projectId, showModalHandle }) {
               <span>Input field task description</span>
             </small>
           </div>
+          <div className="relative my-6">
+            <select
+              onChange={handleChange}
+              name="state"
+              value={task.state}
+              className="peer relative h-10 w-full rounded border border-slate-200 px-4 pr-12 text-sm text-slate-500 placeholder-transparent outline-none transition-all autofill:bg-white invalid:border-pink-500 invalid:text-pink-500 focus:[#d9259d] focus:outline-none invalid:focus:border-pink-500 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400"
+            >
+              <option value={'todo'}>To-Do</option>
+              <option value={'in-progress'}>In Progress</option>
+              <option value={'done'}>Done</option>
+            </select>
+
+            <small className="absolute flex justify-between w-full px-4 py-1 text-xs transition text-slate-400 peer-invalid:text-pink-500">
+              <span>Type your task state</span>
+            </small>
+          </div>
         </div>
       </div>
       {/*  <!-- Action base sized basic button --> */}
@@ -93,7 +111,7 @@ export function TaskForm({ projectId, showModalHandle }) {
         <button
           className="inline-flex h-10 w-full items-center justify-center gap-2 whitespace-nowrap rounded bg-[#d9259d] px-5 text-sm font-medium tracking-wide text-white transition duration-300 hover:bg-[#d9259d] focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-[#bb80a8] disabled:shadow-none "
           type="submit"
-          disabled={!task.name || !task.description || loading}
+          disabled={!taskForm.name || !taskForm.description}
         >
           <span>Create</span>
         </button>

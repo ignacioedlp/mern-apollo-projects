@@ -10,6 +10,7 @@ export const GET_PROJECTS = gql`
       owner
       createdAt
       updatedAt
+      categoryId
       category {
         name
         color
@@ -78,3 +79,22 @@ export const DELETE_PROJECT = gql`
 `;
 
 
+export const UPDATE_PROJECT = gql`
+  mutation ($id: ID!, $name: String!, $description: String, $categoryId: ID, ) {
+  updateProject(_id: $id, name: $name, description: $description, categoryId: $categoryId) {
+    _id
+    name
+    description
+    owner
+    createdAt
+    updatedAt
+    tasks {
+      name
+    }
+    categoryId
+    category {
+      name
+    }
+  }
+}
+`;
